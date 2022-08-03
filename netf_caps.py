@@ -101,7 +101,7 @@ st.pyplot(fig1)
 #Rata-rata imdb score konten
 st.subheader('Skor IMDb')
 st.write('Rata-rata rating movie(film) :', round(df[df['type']=='MOVIE']['imdb_score'].mean(),1))
-st.write('Rata-rata rating show(series) :', round(df[df['type']=='MOVIE']['imdb_score'].mean(),1))
+st.write('Rata-rata rating show(series) :', round(df[df['type']=='SHOW']['imdb_score'].mean(),1))
 
 #Sebaran votes imdb
 st.subheader('Banyak votes di IMDb')
@@ -122,7 +122,7 @@ with col2:
 #Rata-rata tmdb score konten
 st.subheader('Skor TMDB')
 st.write('Rata-rata rating movie(film) :', round(df[df['type']=='MOVIE']['tmdb_score'].mean(),1))
-st.write('Rata-rata rating show(series) :', round(df[df['type']=='MOVIE']['tmdb_score'].mean(),1))
+st.write('Rata-rata rating show(series) :', round(df[df['type']=='SHOW']['tmdb_score'].mean(),1))
 
 #Sebaran popularitas tmdb
 st.subheader('Popularitas TMDb')
