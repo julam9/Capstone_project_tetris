@@ -1,6 +1,0 @@
-click<8.0,>=7.0
-matplotlib
-pandas
-pyplot
-seaborn
-streamlit
