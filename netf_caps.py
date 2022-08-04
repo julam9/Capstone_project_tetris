@@ -162,15 +162,17 @@ prod_country = st.selectbox("Pilih negara produksi", df['production_countries'].
 st.dataframe(df[df['production_countries'] == prod_country])
 
 st.subheader("Cari film/series berdasarkan IMDBb score")
-imdb_score = st.slider(label='Film dengan skor imdb >=', min_value=0.0, max_value=5.0)
+imdb_score = st.slider(label='Film dengan skor imdb >=', min_value=0.0, max_value=9.5)
 st.dataframe(df[df['imdb_score'] >= imdb_score])
 
 st.subheader("Cari film/series berdasarkan TMDB score")
-tmdb_score = st.slider(label='Film dengan skor tmdb >=', min_value=0.0, max_value=10.0)
+tmdb_score = st.slider(label='Film dengan skor tmdb >=', min_value=1.0, max_value=10.0)
 st.dataframe(df[df['tmdb_score'] >= tmdb_score])
 
 st.subheader("Cari film/series berdasarkan TMDB popularity")
-tmdb_popularity = st.slider(label='Film dengan popularitas tmdb >=', min_value=0.0, max_value=100.0)
+min_tmdb_pop = df['tmdb_popularity'].min().astype(int)
+max_tmdb_pop = df['tmdb_popularity'].max().astype(int)
+tmdb_popularity = st.slider(label='Film dengan popularitas tmdb >=', min_value=0.6, max_value=2274.044)
 st.dataframe(df[df['tmdb_popularity'] >= tmdb_popularity])
 
 st.write('Data source : https://www.kaggle.com/datasets/victorsoeiro/netflix-tv-shows-and-movies')
