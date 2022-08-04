@@ -172,3 +172,5 @@ st.dataframe(df[df['tmdb_score'] >= tmdb_score])
 st.subheader("Cari film/series berdasarkan TMDB popularity")
 tmdb_popularity = st.slider(label='Film dengan popularitas tmdb >=', min_value=0.0, max_value=100.0)
 st.dataframe(df[df['tmdb_popularity'] >= tmdb_popularity])
+
+st.write('Data source : https://www.kaggle.com/datasets/victorsoeiro/netflix-tv-shows-and-movies')
