@@ -4,6 +4,9 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
+#from wordcloud import WordCloud
+#from wordcloud import ImageColorGenerator
+#from wordcloud import STOPWORDS
 
 #Wide orientation
 st.set_page_config(layout="wide")
@@ -25,9 +28,9 @@ with col3:
 st.subheader("Pilihan Konten")
 st.write("Per Juli 2022, terdapat", df['title'].value_counts().sum(), "film/series di Netflix")
 
-#set the plot
+#Jumlah konten berdasarkan tipe
 st.subheader("Tipe konten")
-fig = plt.figure(figsize=(10,8))
+fig = plt.figure(figsize=(4,1.5))
 plt.barh(y=df['type'].unique(), width=df['type'].value_counts())
 plt.xlabel('Banyak konten')
 plt.ylabel('Tipe konten')
@@ -66,7 +69,7 @@ with col2:
     plt.xlabel('durasi (jam)')
     st.pyplot(fig2)
 
-#banyak genre konten
+#banyak genre dalam konten
 st.subheader('Banyak genre dalam konten')
 genre_count=[]
 for i in df['genres']:
@@ -95,13 +98,13 @@ st.subheader('Banyak Seasons dalam konten show(series)')
 fig1 = plt.figure(figsize=(10,8))
 sns.distplot(df[df['type']=='SHOW']['seasons'])
 plt.title('Distribusi seasons show(series)')
-plt.xlabel('Jumlah seasons (menit)')
+plt.xlabel('Jumlah seasons')
 st.pyplot(fig1)
 
 #Rata-rata imdb score konten
 st.subheader('Skor IMDb')
-st.write('Rata-rata rating movie(film) :', round(df[df['type']=='MOVIE']['imdb_score'].mean(),1))
-st.write('Rata-rata rating show(series) :', round(df[df['type']=='SHOW']['imdb_score'].mean(),1))
+st.write("Rata-rata skor IMDb movie(film) :",round(df[df['type']=='MOVIE']['imdb_score'].mean(),1))
+st.write("Rata-rata skor IMDb show(series) :",round(df[df['type']=='SHOW']['imdb_score'].mean(),1))
 
 #Sebaran votes imdb
 st.subheader('Banyak votes di IMDb')
