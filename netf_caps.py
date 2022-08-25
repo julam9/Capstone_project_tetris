@@ -201,7 +201,7 @@ with col1:
     fig1=plt.figure()
     plt.scatter(y=df[df['type']=='MOVIE']['tmdb_popularity'], x=df[df['type']=='MOVIE']['runtime'])
     plt.xlabel('Durasi (menit)')
-    plt.ylabel('Rating IMDb')
+    plt.ylabel('Popularitas TMDB')
     plt.title('Hubungan antara durasi dan popularitas tmdb film')
     st.pyplot(fig1)
 #show
@@ -209,7 +209,7 @@ with col2:
     fig2=plt.figure()
     plt.scatter(y=df[df['type']=='SHOW']['tmdb_popularity'], x=df[df['type']=='SHOW']['runtime'])
     plt.xlabel('Durasi (jam)')
-    plt.ylabel('Rating IMDb')
+    plt.ylabel('Popularitas TMDB')
     plt.title('Hubungan antara durasi dan popularitas tmdb series')
     st.pyplot(fig2)
 
@@ -219,12 +219,14 @@ gn_imdb = df.groupby('genres')['imdb_score'].mean().sort_values(ascending=False)
 fig=plt.figure() 
 sns.barplot(y='genres', x='imdb_score', data=gn_imdb)
 plt.title("5 Genre dengan rata-rata rating IMDb tertinggi")
+plt.xlabel("avg imdb_score")
 st.pyplot(fig)
 #genre dengan  popoularitas tmdb tertinggi
 gn_tmdb = df.groupby('genres')['tmdb_popularity'].mean().sort_values(ascending=False).reset_index(name='tmdb_popularity').head(5)
 fig=plt.figure() 
 sns.barplot(y='genres', x='tmdb_popularity', data=gn_tmdb)
 plt.title("5 Genre dengan rata-rata popularitas TMDB tertinggi")
+plt.xlabel("avg tmdp popularity")
 st.pyplot(fig)
 
 st.subheader("Top negara produksi")
@@ -233,12 +235,14 @@ prctry_imdb = df.groupby('production_countries')['imdb_score'].mean().sort_value
 fig=plt.figure() 
 sns.barplot(y='production_countries', x='imdb_score', data=prctry_imdb)
 plt.title("5 Negara produksi dengan rata-rata rating imdb tertinggi")
+plt.xlabel("avg imdb score")
 st.pyplot(fig)
 #negara produksi dengan popularitas tmdb tertinggi
 prctry_tmdb = df.groupby('production_countries')['tmdb_popularity'].mean().sort_values(ascending=False).reset_index(name='tmdb_popularity').head(5)
 fig=plt.figure() 
 sns.barplot(y='production_countries', x='tmdb_popularity', data=prctry_tmdb)
 plt.title("5 Negara produksi dengan rata-rata popularitas tmdb tertinggi")
+plt.xlabel("avg tmdb popularity")
 st.pyplot(fig)
 
 st.subheader("Top tahun rilis")
@@ -247,12 +251,14 @@ rlyr_imdb = df.groupby('release_year')['imdb_score'].mean().sort_values(ascendin
 fig=plt.figure() 
 sns.barplot(x='release_year', y='imdb_score', data=rlyr_imdb)
 plt.title("5 Tahun rilis dengan rata-rata rating imdb tertinggi")
+plt.ylabel("avg imdb score")
 st.pyplot(fig)
 #tahun rilis dengan popularitas tmdb tertinggi
 rlyr_tmdb = df.groupby('release_year')['tmdb_popularity'].mean().sort_values(ascending=False).reset_index(name='tmdb_popularity').head(5)
 fig=plt.figure() 
 sns.barplot(x='release_year', y='tmdb_popularity', data=rlyr_tmdb)
 plt.title("5 Tahun rilis dengan rata-rata popularitas tmdb tertinggi")
+plt.ylabel("avg tmdb popularity")
 st.pyplot(fig)
 
 st.subheader("Top genre & negara produksi")
@@ -262,6 +268,7 @@ grpcy_imdb['genre & production country'] = grpcy_imdb[['genres','production_coun
 fig=plt.figure() 
 sns.barplot(x='imdb_score', y='genre & production country', data=grpcy_imdb)
 plt.title("5 Genre & Negara produksi dengan rata-rata rating imdb tertinggi")
+plt.xlabel("avg imdb score")
 st.pyplot(fig)
 #genre dan negara produksi dengan popularitas tmdb tertinggi
 grpcy_tmdb = df.groupby(['genres','production_countries'])['tmdb_popularity'].mean().sort_values(ascending=False).reset_index(name='tmdb_popularity').head(5)
@@ -269,6 +276,7 @@ grpcy_tmdb['genre & production country'] = grpcy_tmdb[['genres','production_coun
 fig=plt.figure() 
 sns.barplot(x='tmdb_popularity', y='genre & production country', data=grpcy_tmdb)
 plt.title("5 Genre & Negara produksi dengan rata-rata popularitas tmdb tertinggi")
+plt.xlabel("avg tmdb popularity")
 st.pyplot(fig)
 
 #Rata-rata jam per episode show
