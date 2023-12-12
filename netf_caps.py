@@ -13,7 +13,7 @@ st.set_page_config(layout="wide")
 
 #import data
 # change the path into desired path
-df = pd.read_csv("C:/Personal/DA DS/DS Project/Capstone_project_tetris-main/netlix_data.csv")
+df = pd.read_csv("netlix_data.csv")
 
 #title 
 st.markdown("<h1 style='text-align: center; color: red;'>Explore Netflix Dashboard</h1>", unsafe_allow_html=True)
