@@ -6,7 +6,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import base64 
-from pathlib import Path
+from pathlib import Path  
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 
 #Wide orientation
 st.set_page_config(layout="wide")
@@ -89,12 +90,33 @@ plt.xticks(rotation=45)
 plt.ylim([0, max(release_year_df['count'])])
 st.plotly_chart(fig, use_container_width=True)
 
-# Genre bar chart (content > 100)
-st.markdown("<h2 style='text-align: center; color: grey;'>Top Genre with >100 Contents</h1>", unsafe_allow_html=True)
-genre_count = df['genres'].value_counts().reset_index()
-fig = plt.figure()
-sns.barplot(data=genre_count.query('count >= 100'), y='genres', x='count', color='red').set(title="Top genre")
-st.plotly_chart(fig, use_container_width=True)
+# wordcloud genre 
+st.markdown("<h2 style='text-align: center; color: grey;'>Genre Wordcloud</h1>", unsafe_allow_html=True)
+genre_text = " ".join(gen for gen in df.genres) 
+stopword_genre = set(STOPWORDS)
+# Create and generate a word cloud image:
+wordcloud_genre = WordCloud(width=1600, height=800, stopwords=stopword_genre).generate(genre_text)
+# Display the generated image:  
+fig = plt.figure(facecolor='k', figsize=(20, 10))
+plt.imshow(wordcloud_genre, interpolation='bilinear')
+plt.axis("off")
+plt.tight_layout(pad=0) 
+plt.show()
+st.pyplot(fig) 
+
+# wordcloud production country
+st.markdown("<h2 style='text-align: center; color: grey;'>Prodcution Countries Wordcloud</h1>", unsafe_allow_html=True)
+prodcountry_text = " ".join(gen for gen in df.production_countries)
+stopword_prodcountry = set(STOPWORDS)
+# Create and generate a word cloud image:
+wordcloud_prodcountry = WordCloud(width=1600, height=800, stopwords=stopword_prodcountry).generate(prodcountry_text)
+# Display the generated image:
+fig=plt.figure(figsize=(20, 10), facecolor="k")
+plt.imshow(wordcloud_prodcountry, interpolation='bilinear')
+plt.axis("off")
+plt.tight_layout(pad=0)
+plt.show()
+st.pyplot(fig)
 
 # rating and score 
 st.markdown("<h2 style='text-align: center; color: grey;'>Rating of Contents</h1>", unsafe_allow_html=True)
@@ -110,8 +132,8 @@ with col2:
     plt.xlabel('Tmdb score')
     st.pyplot(fig2)
 
-# Relationship between rating imdb and runtim 
-st.markdown("<h2 style='text-align: center; color: grey;'>Relationship between runtime and Imdb Score </h1>", unsafe_allow_html=True)
+# Relationship between rating imdb and runtime
+st.markdown("<h2 style='text-align: center; color: grey;'>Relationship between Runtime and Imdb Score </h1>", unsafe_allow_html=True)
 col1,col2 = st.columns(2)
 #movie
 with col1:
@@ -121,7 +143,7 @@ with col1:
 #show
 with col2:
     fig2=plt.figure()
-    sns.scatterplot(data=df.query('type == "MOVIE"'), x='runtime', y='imdb_score', color='red').set(title="Show")
+    sns.scatterplot(data=df.query('type == "SHOW"'), x='runtime', y='imdb_score', color='red').set(title="Show")
     st.pyplot(fig2)
 
 # Relationship between popularity tmdb and runtime 
@@ -135,34 +157,34 @@ with col1:
 #show
 with col2:
     fig2=plt.figure()
-    sns.scatterplot(data=df.query('type == "MOVIE"'), x='runtime', y='tmdb_popularity', color='red').set(title="Show")
+    sns.scatterplot(data=df.query('type == "SHOW"'), x='runtime', y='tmdb_popularity', color='red').set(title="Show")
     st.pyplot(fig2)
 
 # Highest rated genre
-st.markdown("<h2 style='text-align: center; color: grey;'> Highest Average Rated Genre </h1>", unsafe_allow_html=True)
-col1, col2 = st.columns(2)
+#st.markdown("<h2 style='text-align: center; color: grey;'> Highest Average Rated Genre </h1>", unsafe_allow_html=True)
+#col1, col2 = st.columns(2)
 # imdb 
-with col1:
-    fig1=plt.figure()
-    top10_imdb_genres = df.groupby('genres')['imdb_score'].mean().sort_values(ascending=False).reset_index().head(10) 
-    st.dataframe(top10_imdb_genres)
+#with col1:
+#    fig1=plt.figure()
+#    top10_imdb_genres = df.groupby('genres')['imdb_score'].mean().sort_values(ascending=False).reset_index().head(10) 
+#    st.dataframe(top10_imdb_genres)
 # tmdb
-with col2:
-    fig1=plt.figure()
-    top10_tmdb_genres = df.groupby('genres')['tmdb_score'].mean().sort_values(ascending=False).reset_index().head(10) 
-    st.dataframe(top10_tmdb_genres)
+#with col2:
+#    fig1=plt.figure()
+#    top10_tmdb_genres = df.groupby('genres')['tmdb_score'].mean().sort_values(ascending=False).reset_index().head(10) 
+#    st.dataframe(top10_tmdb_genres)
 
 # production_countries with highest average imdb score 
-st.markdown("<h2 style='text-align: center; color: grey;'> Highest Average Rated Prodducer Countries </h1>", unsafe_allow_html=True)
-col1, col2 = st.columns(2)
+#st.markdown("<h2 style='text-align: center; color: grey;'> Highest Average Rated Prodducer Countries </h1>", unsafe_allow_html=True)
+#col1, col2 = st.columns(2)
 # imdb 
-with col1:
-    top10_imdb_prodcountries = df.groupby('production_countries')['imdb_score'].mean().sort_values(ascending=False).reset_index().head(10) 
-    st.dataframe(top10_imdb_prodcountries)
+#with col1:
+#    top10_imdb_prodcountries = df.groupby('production_countries')['imdb_score'].mean().sort_values(ascending=False).reset_index().head(10) 
+#    st.dataframe(top10_imdb_prodcountries)
 # tmdb
-with col2:
-    top10_tmdb_prodcountries = df.groupby('production_countries')['tmdb_score'].mean().sort_values(ascending=False).reset_index().head(10)
-    st.dataframe(top10_tmdb_prodcountries)  
+#with col2:
+#    top10_tmdb_prodcountries = df.groupby('production_countries')['tmdb_score'].mean().sort_values(ascending=False).reset_index().head(10)
+#    st.dataframe(top10_tmdb_prodcountries)  
     
 # average imdb and tmdb score over the years  
 st.markdown("<h2 style='text-align: center; color: grey;'> Average Rating Over the Years </h1>", unsafe_allow_html=True)
